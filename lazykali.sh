@@ -418,6 +418,23 @@ function bleedingedge {
 		fi
 }
 
+function installwifiphisher {
+if [ ! -e "/usr/bin/wifiphisher" ];then
+			echo "WiFiPhisher is not installed. Do you want to install it ? (Y/N)"
+			read install
+			if [[ $install = Y || $install = y ]] ; then
+				echo -e "\033[31m===== Installing WiFiPhisher =====\033[m"
+				# Install WiFiPhiser
+				apt-get -y install wifiphisher
+                       else
+                                echo -e "\e[32m[-] Ok,maybe later !\e[0m"
+                        fi
+                else
+                        echo -e "\e[32m[-] WiFiPhisher is installed!\e[0m"
+                fi
+}
+
+
 function installangryip {
 if [ ! -e "/usr/bin/ipscan" ];then
 			echo "AngryIp Scanner is not installed. Do you want to install it ? (Y/N)"
@@ -1246,10 +1263,10 @@ echo -e "
                 Install Extras
 \033[31m#######################################################\033[m"
 
-select menusel in "Bleeding Edge Repos" "Hackpack" "Google Chrome" "Flash" "Smbexec" "Xssf" "Ettercap 0.76" "AngryIP Scanner" "Terminator" "Xchat" "Unicornscan" "Nautilus Open Terminal" "Simple-Ducky" "Subterfuge" "Ghost-Phisher" "Java" "Install All" "Back to Main"; do
+select menusel in "WiFiPhisher" "Hackpack" "Google Chrome" "Flash" "Smbexec" "Xssf" "Ettercap 0.76" "AngryIP Scanner" "Terminator" "Xchat" "Unicornscan" "Nautilus Open Terminal" "Simple-Ducky" "Subterfuge" "Ghost-Phisher" "Java" "Install All" "Back to Main"; do
 case $menusel in
-	"Bleeding Edge Repos")
-		bleedingedge
+	"WiFiPhisher")
+		installwifiphisher
 		pause 
 		extras;;
 		
@@ -1331,7 +1348,7 @@ case $menusel in
 	"Install All")
 		echo -e "\e[36mJava is install seperately choose it from the extra's menu\e[0m"
 		echo -e "\e[31m[+] Installing Extra's\e[0m"
-		bleedingedge
+		installwifiphisher
 		installhackpack
 		installgooglechrome
 		installflash
