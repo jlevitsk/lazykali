@@ -1,0 +1,6 @@
+Aug 27, 2016 - 01
+        Initial commit of old script from 2013
+        Updated Bleeding Edge Repos to format the way Kali says to
+        Added Bleeding Edge option to Kali Update
+        Corrected self-update code to point at GitHub
+        Created this change log
