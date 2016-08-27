@@ -12,8 +12,9 @@
 #
 ##############################################
 clear
-version="2016082701"
-#some variables
+
+# Variables
+version="2016082702"
 DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $3}')
 IFACE=$(ip route show | awk '(NR == 2) {print $3}')
 JAVA_VERSION=`java -version 2>&1 |awk 'NR==1{ gsub(/"/,""); print $3 }'`
@@ -50,7 +51,6 @@ if [[ "$silent" = "1" ]];then
 else
 	changelog=$(curl --silent -q https://raw.githubusercontent.com/jlevitsk/lazykali/master/changelog)
 	last_version=$(curl --silent -q https://raw.githubusercontent.com/jlevitsk/lazykali/master/version) #store last version number to variable
-	last_version="20160827"
 	if [[ $last_version > $version ]];then # Comparing to current version
 		echo -e "You are running version \033[31m$version\033[m, do you want to update to \033[32m$last_version\033[m? (Y/N)
 Last changes are :
