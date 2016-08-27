@@ -14,7 +14,7 @@
 clear
 
 # Variables
-version="2016082703"
+version="2016082704"
 DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $3}')
 IFACE=$(ip route show | awk '(NR == 2) {print $3}')
 JAVA_VERSION=`java -version 2>&1 |awk 'NR==1{ gsub(/"/,""); print $3 }'`
@@ -144,13 +144,14 @@ echo -e "
 \033[31m#######################################################\033[m
                 Let's Update Kali
 \033[31m#######################################################\033[m"
-select menusel in "Add Bleeding Edge Repos" "Update Kali" "Update Kali w/Dist-upgrade" "Update and Clean Kali" "Back to Main"; do
+select menusel in "Add Bleeding Edge Repos" "Update Kali" "Upgrade Kali Dist-upgrade" "Upgrade and AutoClean Kali" "Back to Main"; do
 case $menusel in
 	"Add Bleeding Edge Repos")
 		clear
 		bleedingedge
 		pause
-		clear ;;
+		clear 
+		updatekali ;;
 
 	"Update Kali")
 		clear
@@ -158,22 +159,27 @@ case $menusel in
 		apt-get update && apt-get -y upgrade 
 		echo -e "\033[32mDone updating kali\033[m"
 		pause
-		clear ;;
+		clear 
+		updatekali ;;
 
-	"Update Kali w/Dist-upgrade")
+	"Upgradee Kali Dist-upgrade")
 		clear
                 echo -e "\033[32mUpdating Kali\033[m"
                 apt-get update && apt-get -y dist-upgrade
                 apt-get update && apt-get -y upgrade
                 echo -e "\033[32mDone updating kali\033[m"
                 pause
-                clear ;;
+                clear
+		updatekali ;;
 	
-	"Update w/Dist-upgrade and Clean Kali")
+	"Update and AutoClean Kali")
 		clear
 		echo -e "\033[32mUpdating and Cleaning Kali\033[m"
 		apt-get update && apt-get -y dist-upgrade && apt-get autoremove -y && apt-get -y autoclean
 		echo -e "\033[32mDone updating and cleaning kali\033[m" ;;
+		pause
+		clear 
+		updatekali ;;
 		
 	"Back to Main")
 		clear
