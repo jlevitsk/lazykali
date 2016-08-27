@@ -1,6 +1,12 @@
+Aug 27, 2016 - 02
+        Added WiFiPhisher to Extras list
+        Removed Bleeding Edge Repos from Extras list since it is in Kali Update now
+        Modified Credits to point to fork of Yamas that actually works on Kali
+
 Aug 27, 2016 - 01
         Initial commit of old script from 2013
         Updated Bleeding Edge Repos to format the way Kali says to
         Added Bleeding Edge option to Kali Update
+        Added a Dist Upgrade option to the Kali Update menu
         Corrected self-update code to point at GitHub
         Created this change log
