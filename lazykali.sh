@@ -149,37 +149,33 @@ case $menusel in
 	"Add Bleeding Edge Repos")
 		clear
 		bleedingedge
-		pause
-		clear 
-		updatekali ;;
+		pause 
+		clear ;; 
 
 	"Update Kali")
 		clear
 		echo -e "\033[32mUpdating Kali\033[m"
 		apt-get update && apt-get -y upgrade 
 		echo -e "\033[32mDone updating kali\033[m"
-		pause
-		clear 
-		updatekali ;;
+		pause 
+		clear ;; 
 
-	"Upgradee Kali Dist-upgrade")
+	"Upgrade Kali Dist-upgrade")
 		clear
                 echo -e "\033[32mUpdating Kali\033[m"
                 apt-get update && apt-get -y dist-upgrade
                 apt-get update && apt-get -y upgrade
                 echo -e "\033[32mDone updating kali\033[m"
-                pause
-                clear
-		updatekali ;;
+                pause 
+		clear ;; 
 	
-	"Update and AutoClean Kali")
+	"Upgrade and AutoClean Kali")
 		clear
 		echo -e "\033[32mUpdating and Cleaning Kali\033[m"
 		apt-get update && apt-get -y dist-upgrade && apt-get autoremove -y && apt-get -y autoclean
-		echo -e "\033[32mDone updating and cleaning kali\033[m" ;;
-		pause
-		clear 
-		updatekali ;;
+		echo -e "\033[32mDone updating and cleaning kali\033[m"
+		pause 
+		clear ;;
 		
 	"Back to Main")
 		clear
