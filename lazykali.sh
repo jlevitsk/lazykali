@@ -48,8 +48,8 @@ fi
 if [[ "$silent" = "1" ]];then
 	echo "Not checking for a new version : silent mode."
 else
-	changelog=$(curl --silent -q http://joshie.com/scripts/lazykali/changelog)
-	#last_version=$(curl --silent -q http://joshie.com/scripts/lazykali/version) #store last version number to variable
+	changelog=$(curl --silent -q https://github.com/jlevitsk/lazykali/blob/master/changelog)
+	last_version=$(curl --silent -q https://github.com/jlevitsk/lazykali/blob/master/version) #store last version number to variable
 	last_version="20160827"
 	if [[ $last_version > $version ]];then # Comparing to current version
 		echo -e "You are running version \033[31m$version\033[m, do you want to update to \033[32m$last_version\033[m? (Y/N)
@@ -58,7 +58,7 @@ $changelog"
 		read update
 		if [[ $update = Y || $update = y ]];then
 			echo "[+] Updating script..."
-			wget -q http://joshie.com/scripts/lazykali/lazykali.sh -O $0
+			wget -q https://github.com/jlevitsk/lazykali/blob/master/lazykali.sh -O $0
 			chmod +x $0
 			echo "[-] Script updated !"
 			if [[ $0 != '/usr/bin/yamas' && $ask_for_install = 'y' ]];then
