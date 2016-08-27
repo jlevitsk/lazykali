@@ -52,9 +52,11 @@ else
 	changelog=$(curl --silent -q https://raw.githubusercontent.com/jlevitsk/lazykali/master/changelog)
 	last_version=$(curl --silent -q https://raw.githubusercontent.com/jlevitsk/lazykali/master/version) #store last version number to variable
 	if [[ $last_version > $version ]];then # Comparing to current version
-		echo -e "You are running version \033[31m$version\033[m, do you want to update to \033[32m$last_version\033[m? (Y/N)
+		echo -e "You are running version \033[31m$version\033[m
 Last changes are :
-$changelog"
+$changelog
+
+Do you want to update to \033[32m$last_version\033[m? (Y/N)"
 		read update
 		if [[ $update = Y || $update = y ]];then
 			echo "[+] Updating script..."
@@ -78,7 +80,7 @@ $changelog"
 					exit 1
 				fi
 			fi
-		
+
 		sleep 2
 		$0
 		exit 1
@@ -104,6 +106,10 @@ echo -e "
                        Credits To
 \033[31m#######################################################\033[m"
 echo -e "\033[36m
+
+Forked lazikali code by JoshuaFF
+http://www.joshie.com/
+
 Special thanks to:
 Offensive Security for the awesome OS
 http://www.offensive-security.com/
@@ -131,8 +137,8 @@ and anyone else I may have missed.
 
 #### Screwup function
 function screwup {
-	echo "You Screwed up somewhere, try again."
-	pause 
+	echo "Invalid selection, please try again."
+	pause
 	clear
 }
 
@@ -149,38 +155,42 @@ case $menusel in
 	"Add Bleeding Edge Repos")
 		clear
 		bleedingedge
-		pause 
-		clear ;; 
+		pause
+		clear
+    updatekali ;;
 
 	"Update Kali")
 		clear
 		echo -e "\033[32mUpdating Kali\033[m"
-		apt-get update && apt-get -y upgrade 
+		apt-get update && apt-get -y upgrade
 		echo -e "\033[32mDone updating kali\033[m"
-		pause 
-		clear ;; 
+		pause
+		clear
+    updatekali ;;
 
 	"Upgrade Kali Dist-upgrade")
 		clear
-                echo -e "\033[32mUpdating Kali\033[m"
-                apt-get update && apt-get -y dist-upgrade
-                apt-get update && apt-get -y upgrade
-                echo -e "\033[32mDone updating kali\033[m"
-                pause 
-		clear ;; 
-	
+    echo -e "\033[32mUpdating Kali\033[m"
+    apt-get update && apt-get -y dist-upgrade
+    apt-get update && apt-get -y upgrade
+    echo -e "\033[32mDone updating kali\033[m"
+    pause
+		clear
+    updatekali ;;
+
 	"Upgrade and AutoClean Kali")
 		clear
 		echo -e "\033[32mUpdating and Cleaning Kali\033[m"
 		apt-get update && apt-get -y dist-upgrade && apt-get autoremove -y && apt-get -y autoclean
 		echo -e "\033[32mDone updating and cleaning kali\033[m"
-		pause 
-		clear ;;
-		
+		pause
+		clear
+    updatekali ;;
+
 	"Back to Main")
 		clear
 		mainmenu ;;
-		
+
 	*)
 		screwup
 		updatekali ;;
@@ -206,17 +216,17 @@ case $menusel in
 		service postgresql start && service metasploit start
 		echo -e "\033[32mNow Open a new Terminal and launch msfconsole\033[m"
 		pause ;;
-	
+
 	"Stop Metasploit Services")
 		echo -e "\033[32mStoping Metasploit Services..\033[m"
 		service postgresql stop && service metasploit stop
 		pause ;;
-		
+
 	"Restart Metasploit Services")
 		echo -e "\033[32mRestarting Metasploit Services..\033[m"
 		service postgresql restart && service metasploit restart
 		pause ;;
-		
+
 	"Autostart Metasploit Services")
 		echo -e "\033[32mSetting Metasploit Services to start on boot..\033[m"
 		update-rc.d postgresql enable && update-rc.d metasploit enable
@@ -225,11 +235,11 @@ case $menusel in
 	"Back to Main")
 		clear
 		mainmenu ;;
-		
+
 	*)
 		screwup
-		metasploitservices ;;		
-		
+		metasploitservices ;;
+
 esac
 
 break
@@ -248,14 +258,14 @@ select menusel in "Start OpenVas Services" "Stop OpenVas Services" "Rollback V5"
 case $menusel in
 	"Start OpenVas Services")
 		openvasstart
-		pause 
+		pause
 		OpenVas;;
-	
+
 	"Stop OpenVas Services")
 		openvasstop
 		pause
 		OpenVas ;;
-		
+
 	"Rollback V5")
 		rollbackopenvas
 		pause
@@ -264,12 +274,12 @@ case $menusel in
 	"Back to Main")
 		clear
 		mainmenu ;;
-		
+
 	*)
 		screwup
 		OpenVas ;;
-	
-		
+
+
 esac
 
 break
@@ -288,9 +298,9 @@ select menusel in "Update Exploitdb" "Searchsploit" "Back to Main"; do
 case $menusel in
 	"Update Exploitdb")
 		updateexploitdb
-		pause 
+		pause
 		exploitdb;;
-	
+
 	"Searchsploit")
 		searchsploit
 		pause
@@ -299,12 +309,12 @@ case $menusel in
 	"Back to Main")
 		clear
 		mainmenu ;;
-		
+
 	*)
 		screwup
 		OpenVas ;;
-	
-		
+
+
 esac
 
 break
@@ -326,27 +336,27 @@ case $menusel in
 		installyamas
 		pause
 		sniffspoof ;;
-		
+
 	"EasyCreds")
 		easycreds
 		pause
 		sniffspoof ;;
-	
+
 	"PwnStar")
 		pwnstar
 		pause
 		sniffspoof ;;
-		
+
 	"Subterfuge")
 		subterfuge
 		pause
 		sniffspoof ;;
-		
+
 	"Ghost-Phisher")
 		ghostphisher
 		pause
 		sniffspoof ;;
-		
+
 	"Hamster&Ferret")
 		hamfer
 		pause
@@ -355,12 +365,12 @@ case $menusel in
 	"Back to Main")
 		clear
 		mainmenu ;;
-		
+
 	*)
 		screwup
 		sniffspoof ;;
-	
-		
+
+
 esac
 
 break
@@ -381,16 +391,16 @@ case $menusel in
 		simpleducky
 		pause
 		payloadgen ;;
-		
+
 	"Back to Main")
 		clear
 		mainmenu ;;
-		
+
 	*)
 		screwup
 		sniffspoof ;;
-	
-		
+
+
 esac
 
 break
@@ -409,14 +419,12 @@ function bleedingedge {
 				echo "" >> /etc/apt/sources.list
 				echo '# Bleeding Edge ' >> /etc/apt/sources.list
 				echo 'deb http://repo.kali.org/kali kali-bleeding-edge contrib non-free main' >> /etc/apt/sources.list
-				#apt-get update
-				#apt-get -y upgrade
+        echo -e "\e[32m[-] Bleeding Edge Repo added.\e[0m"
 			else
 				echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 			fi
 		else
 			echo -e "\e[32m[-] Bleeding Edge Repo already there!\e[0m"
-			sleep 1
 		fi
 }
 
@@ -428,12 +436,13 @@ if [ ! -e "/usr/bin/wifiphisher" ];then
 				echo -e "\033[31m===== Installing WiFiPhisher =====\033[m"
 				# Install WiFiPhiser
 				apt-get -y install wifiphisher
-                       else
-                                echo -e "\e[32m[-] Ok,maybe later !\e[0m"
-                        fi
-                else
-                        echo -e "\e[32m[-] WiFiPhisher is installed!\e[0m"
-                fi
+        echo -e "\e[32m[-] WiFiPhisher installed.\e[0m"
+      else
+        echo -e "\e[32m[-] Ok,maybe later !\e[0m"
+      fi
+else
+      echo -e "\e[32m[-] WiFiPhisher is installed!\e[0m"
+fi
 }
 
 
@@ -441,7 +450,7 @@ function installangryip {
 if [ ! -e "/usr/bin/ipscan" ];then
 			echo "AngryIp Scanner is not installed. Do you want to install it ? (Y/N)"
 			read install
-			if [[ $install = Y || $install = y ]] ; then	
+			if [[ $install = Y || $install = y ]] ; then
 				echo -e "\033[31m====== Installing Angry IP Scanner ======\033[m"
 				# Install angry-IP-scanner
 				cd /root/ &>/dev/null
@@ -469,7 +478,7 @@ function installterminator {
 	read install
 	if [[ $install = Y || $install = y ]] ; then
 		apt-get -y install terminator
-		echo -e "\e[32m[-] Done Installing Terminator!\e[0m" 
+		echo -e "\e[32m[-] Done Installing Terminator!\e[0m"
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
@@ -479,7 +488,7 @@ function installxchat {
 	echo "This will install Xchat. Do you want to install it ? (Y/N)"
 	read install
 	if [[ $install = Y || $install = y ]] ; then
-		apt-get -y install xchat 
+		apt-get -y install xchat
 		echo -e "\e[32m[-] Done Installing XChat!\e[0m"
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
@@ -497,7 +506,7 @@ function installnautilusopenterm {
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
-	
+
 }
 
 function installunicornscan {
@@ -510,9 +519,9 @@ function installunicornscan {
 				echo -e "\033[32m====== Done Installing Flex ======\033[m"
 				echo -e "\033[31m====== Installing Unicornscan ======\033[m"
 				cd /root/ &>/dev/null
-				wget -N http://unicornscan.org/releases/unicornscan-0.4.7-2.tar.bz2 
-				bzip2 -cd unicornscan-0.4.7-2.tar.bz2 | tar xf - 
-				cd unicornscan-0.4.7/ 
+				wget -N http://unicornscan.org/releases/unicornscan-0.4.7-2.tar.bz2
+				bzip2 -cd unicornscan-0.4.7-2.tar.bz2 | tar xf -
+				cd unicornscan-0.4.7/
 				./configure CFLAGS=-D_GNU_SOURCE && make && make install
 				cd /root/ &>/dev/null
 				rm -rf unicornscan-0.4.7*
@@ -524,8 +533,8 @@ function installunicornscan {
 		else
 			echo -e "\e[32m[-] Done Installing Unicornscan!\e[0m"
 			echo "Launch a new terminal and enter unicornscan to run."
-			
-		fi	
+
+		fi
 }
 
 function installyamas {
@@ -550,7 +559,7 @@ function installyamas {
 		echo "Script is installed"
 		gnome-terminal -t "Yamas" -x bash yamas 2>/dev/null & sleep 2
 		sleep 1
-	fi		
+	fi
 }
 
 
@@ -574,10 +583,8 @@ function installhackpack {
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
-	
+
 }
-
-
 
 function easycreds {
 	if [ ! -f /usr/bin/easy-creds ]; then
@@ -593,15 +600,15 @@ function easycreds {
 				cd /root/ &>/dev/null
 				echo -e "\033[32m===== All Done ======\033[m"
 				echo "Launching easy-creds in new window !"
-				gnome-terminal -t "Easy-Creds" -e easy-creds 2>/dev/null & sleep 2				
+				gnome-terminal -t "Easy-Creds" -e easy-creds 2>/dev/null & sleep 2
 			else
 				echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 			fi
 		else
 			echo "Easy-Creds is installed."
 			echo "Launching easy-creds in new window !"
-			gnome-terminal -t "Easy-Creds" -e easy-creds 2>/dev/null & sleep 2	
-		fi	
+			gnome-terminal -t "Easy-Creds" -e easy-creds 2>/dev/null & sleep 2
+		fi
 }
 
 ######### PwnStar
@@ -613,7 +620,7 @@ function pwnstar {
 				mkdir /opt/PwnSTAR_0.9
 				cd /opt/PwnSTAR_0.9
 				wget http://pwn-star.googlecode.com/files/PwnSTAR_0.9.tgz
-				tar -zxvf PwnSTAR_0.9.tgz 
+				tar -zxvf PwnSTAR_0.9.tgz
 				mv hotspot_3 /var/www/ && mv portal_hotspot /var/www/ && mv portal_pdf /var/www/ && mv portal_simple /var/www/
 				#rm $0
 				echo "PwnStar should now be installed. Launching it !"
@@ -629,7 +636,7 @@ function pwnstar {
 			echo "PwnStar is installed, Launching it now!"
 			sleep 1
 			gnome-terminal -t "PwnStar" -e /opt/PwnSTAR_0.9/PwnSTAR_0.9 2>/dev/null & sleep 2
-		fi 
+		fi
 }
 
 ### Hunting with rodents hamster and ferret
@@ -638,7 +645,7 @@ function hamfer {
 			echo -e "\033[31m[+] Creating link /usr/share/hamster-sidejack/ferret\033[m"
 			echo "we need this to avoid file not found error"
 			ln -s /usr/bin/ferret /usr/share/hamster-sidejack/ferret
-			hamfer			
+			hamfer
 		else
 			echo -e "\033[31m[+] Starting Sidejacking with Hamster & Ferret.\033[m"
 			echo "1" > /proc/sys/net/ipv4/ip_forward
@@ -649,7 +656,7 @@ function hamfer {
 			sleep 2
 			#xterm -e /usr/share/hamster-sidejack/ferret -i $IFACE 2>/dev/null & sleep 2
 			cd /usr/share/hamster-sidejack
-			xterm -e ./hamster 2>/dev/null & sleep 2 
+			xterm -e ./hamster 2>/dev/null & sleep 2
 			echo -e "\n\033[31m[+] Attack is running\033[m.\nSet browser proxy to 127.0.0.1:1234\nIn Browser go to http://hamster\nPress (q) to stop"
 			cd
 			while read -n1 char
@@ -658,7 +665,7 @@ function hamfer {
 				q)
 				break
 				;;
-			
+
 				* )
 					echo -ne "\nInvalid character '$char' entered. Press (q) to quit."
 				esac
@@ -674,8 +681,8 @@ function hamfer {
 			iptables --delete-chain
 			iptables --table nat --delete-chain
 			echo -e "\033[32m[-] Clean up successful !\033[m"
-	
-		fi	
+
+		fi
 
 }
 
@@ -695,8 +702,8 @@ function installsimpleducky {
 			fi
 		else
 			echo -e "\e[32m[-] Simple-Ducky is installed!\e[0m"
-			echo "Launch a new terminal and enter simple-ducky to run."			
-		fi	
+			echo "Launch a new terminal and enter simple-ducky to run."
+		fi
 }
 
 #################################################################################
@@ -710,7 +717,7 @@ function installjava {
 	read install
 	if [[ $install = Y || $install = y ]] ; then
 			read -p "Are you using a 32bit or 64bit operating system [ENTER: 32 or 64]? " operatingsys
-			if [ "$operatingsys" == "32" ]; then 
+			if [ "$operatingsys" == "32" ]; then
 				echo -e "\e[1;31m[+] Downloading and Updating to jdk1.7.0\e[0m"
 				echo -e ""
 				wget --no-cookies --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-i586.tar.gz"
@@ -799,7 +806,7 @@ function installgooglechrome {
 	read install
 	if [[ $install = Y || $install = y ]] ; then
 			read -p "Are you using a 32bit or 64bit operating system [ENTER: 32 or 64]? " operatingsys
-			if [ "$operatingsys" == "32" ]; then 
+			if [ "$operatingsys" == "32" ]; then
 				echo -e "\e[1;31m[+] Downloading google-chrome-stable_current_i386\e[0m"
 				wget wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
 				echo -e "\e[32m[-] Done with download!\e[0m"
@@ -849,7 +856,7 @@ function simpleducky {
 			echo -e "\e[31m[+] Launching Simple-Ducky now!\nBe sure to run Option's 5 and 6 prior to generating any payloads.\e[0m"
 			sleep 1
 			gnome-terminal -t "Simple-Ducky" -e "bash simple-ducky" 2>/dev/null & sleep 2
-		fi 
+		fi
 }
 
 #####openvasstart
@@ -861,15 +868,15 @@ infostyle="[\e[01;34mi\e[00m]" # informational msgs style
 
 #fun little banner
 clear
-echo -e "\e[01;32m 
-####### ######  ####### #     # #     #    #     #####  
-#     # #     # #       ##    # #     #   # #   #     # 
-#     # #     # #       # #   # #     #  #   #  #       
-#     # ######  #####   #  #  # #     # #     #  #####  
-#     # #       #       #   # #  #   #  #######       # 
-#     # #       #       #    ##   # #   #     # #     # 
-####### #       ####### #     #    #    #     #  #####  
-                                                        
+echo -e "\e[01;32m
+####### ######  ####### #     # #     #    #     #####
+#     # #     # #       ##    # #     #   # #   #     #
+#     # #     # #       # #   # #     #  #   #  #
+#     # ######  #####   #  #  # #     # #     #  #####
+#     # #       #       #   # #  #   #  #######       #
+#     # #       #       #    ##   # #   #     # #     #
+####### #       ####### #     #    #    #     #  #####
+
 \e[0m"
 echo -e "\e[1;1m   ..----=====*****(( Startup Script ))*******=====----..\e[0m"
 echo -e "\e[31m *************************************************************\e[0m"
@@ -885,7 +892,7 @@ echo -e "$execstyle Checking OpenVas Scanner is running..."
 ps -ef | grep -v grep | grep openvassd
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Scanner not running!" 
+	echo -e "$warnstyle OpenVas Scanner not running!"
  else
 	echo -e "$execstyle Stopping OpenVas Scanner..."
 	killall openvassd
@@ -896,7 +903,7 @@ echo -e "$execstyle Checking if OpenVas Administrator is running..."
 ps -ef | grep -v grep | grep openvasad
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Administrator not running!" 
+	echo -e "$warnstyle OpenVas Administrator not running!"
  else
 	echo -e "$execstyle Stopping OpenVas Administrator..."
 	killall openvasad
@@ -907,7 +914,7 @@ echo -e "$execstyle Checking if OpenVas Manager is running..."
 ps -ef | grep -v grep | grep openvasmd
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Manager not running!" 
+	echo -e "$warnstyle OpenVas Manager not running!"
  else
 	echo -e "$execstyle Stopping OpenVas Manager..."
 	killall openvasmd
@@ -918,7 +925,7 @@ echo -e "$execstyle Checking if Greenbone Security Assistant is running..."
 ps -ef | grep -v grep | grep gsad
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle Greenbone Security Assistant not running!" 
+	echo -e "$warnstyle Greenbone Security Assistant not running!"
  else
 	echo -e "$execstyle Stopping Greenbone Security Assistant..."
 	killall gsad
@@ -961,7 +968,7 @@ echo -e "$execstyle Checking if OpenVas Scanner is running..."
 ps -ef | grep -v grep | grep openvassd
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Scanner not running!" 
+	echo -e "$warnstyle OpenVas Scanner not running!"
  else
 	echo -e "$infostyle OpenVas Scanner is running!!"
 fi
@@ -971,7 +978,7 @@ echo -e "$execstyle Checking if OpenVas Administrator is running..."
 ps -ef | grep -v grep | grep openvasad
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Administrator not running!" 
+	echo -e "$warnstyle OpenVas Administrator not running!"
  else
 	echo -e "$infostyle OpenVas Administrator is running!!"
 fi
@@ -981,7 +988,7 @@ echo -e "$execstyle Checking if OpenVas Manager is running..."
 ps -ef | grep -v grep | grep openvasmd
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Manager not running!" 
+	echo -e "$warnstyle OpenVas Manager not running!"
  else
 	echo -e "$infostyle OpenVas Manager is running!!"
 fi
@@ -991,7 +998,7 @@ echo -e "$execstyle Checking if Greenbone Security Assistant is running..."
 ps -ef | grep -v grep | grep gsad
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle Greenbone Security Assistant not running!" 
+	echo -e "$warnstyle Greenbone Security Assistant not running!"
  else
 	echo -e "$infostyle Greenbone Security Assistant is running"
 fi
@@ -1013,14 +1020,14 @@ infostyle="[\e[01;34mi\e[00m]" # informational msgs style
 #fun little banner
 clear
 echo -e "\e[01;32m
-####### ######  ####### #     # #     #    #     #####  
-#     # #     # #       ##    # #     #   # #   #     # 
-#     # #     # #       # #   # #     #  #   #  #       
-#     # ######  #####   #  #  # #     # #     #  #####  
-#     # #       #       #   # #  #   #  #######       # 
-#     # #       #       #    ##   # #   #     # #     # 
-####### #       ####### #     #    #    #     #  #####  
-                                                        
+####### ######  ####### #     # #     #    #     #####
+#     # #     # #       ##    # #     #   # #   #     #
+#     # #     # #       # #   # #     #  #   #  #
+#     # ######  #####   #  #  # #     # #     #  #####
+#     # #       #       #   # #  #   #  #######       #
+#     # #       #       #    ##   # #   #     # #     #
+####### #       ####### #     #    #    #     #  #####
+
 \e[0m"
 echo -e "\e[1;1m   ..----=====*****(( Shutdown Script ))*******=====----..\e[0m"
 echo -e "\e[31m *************************************************************\e[0m"
@@ -1034,7 +1041,7 @@ echo -e "$execstyle Checking OpenVas Scanner is running..."
 ps -ef | grep -v grep | grep openvassd
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Scanner not running!" 
+	echo -e "$warnstyle OpenVas Scanner not running!"
  else
 	echo -e "$execstyle Stopping OpenVas Scanner..."
 	killall openvassd
@@ -1046,7 +1053,7 @@ echo -e "$execstyle Checking if OpenVas Administrator is running..."
 ps -ef | grep -v grep | grep openvasad
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Administrator not running!" 
+	echo -e "$warnstyle OpenVas Administrator not running!"
  else
 	echo -e "$execstyle Stopping OpenVas Administrator..."
 	killall openvasad
@@ -1058,7 +1065,7 @@ echo -e "$execstyle Checking if OpenVas Manager is running..."
 ps -ef | grep -v grep | grep openvasmd
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle OpenVas Manager not running!" 
+	echo -e "$warnstyle OpenVas Manager not running!"
  else
 	echo -e "$execstyle Stopping OpenVas Manager..."
 	killall openvasmd
@@ -1070,7 +1077,7 @@ echo -e "$execstyle Checking if Greenbone Security Assistant is running..."
 ps -ef | grep -v grep | grep gsad
 if [ $? -eq 1 ]
  then
-	echo -e "$warnstyle Greenbone Security Assistant not running!" 
+	echo -e "$warnstyle Greenbone Security Assistant not running!"
  else
 	echo -e "$execstyle Stopping Greenbone Security Assistant..."
 	killall gsad
@@ -1089,7 +1096,7 @@ echo -e "\033[31mThis script will roll OpenVas back to Version 5\033[m"
 echo -e "\033[31myou may need this if you broke Openvas with apt-get dist-upgrade\033[m"
 echo "Do you want to rollback ? (Y/N)"
 read install
-if [[ $install = Y || $install = y ]] ; then	
+if [[ $install = Y || $install = y ]] ; then
 		echo -e "\033[31m====== Rolling OpenVas back to V5 ======\033[m"
 		apt-get remove --purge greenbone-security-assistant libopenvas6 openvas-administrator openvas-manager openvas-cli openvas-scanner
 		mkdir openvasfix
@@ -1121,7 +1128,7 @@ if [[ $install = Y || $install = y ]] ; then
 		else
 			echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 		fi
-		echo -e "\e[32m[-] Done!\e[0m"	
+		echo -e "\e[32m[-] Done!\e[0m"
 }
 
 ### Update Exploitdb
@@ -1132,7 +1139,7 @@ function updateexploitdb {
 	wget http://www.exploit-db.com/archive.tar.bz2
 	tar xvfj archive.tar.bz2
 	rm -rf archive.tar.bz2
-	echo -e "\e[32m[-] Done Updating Exploitdb!\e[0m"	
+	echo -e "\e[32m[-] Done Updating Exploitdb!\e[0m"
 }
 
 #### Searchsploit
@@ -1141,7 +1148,7 @@ function searchsploit {
 	echo -e "\033[31mEnter a search term and hit Enter\033[m"
 	read searchterm
 	gnome-terminal --maximize -t "Seachsploit" --working-directory=WORK_DIR -x bash -c "searchsploit $searchterm; echo -e '\e[32m[-] Close this window when done!\e[0m'; bash" 2>/dev/null & sleep 2
-	
+
 }
 
 #### Install Subterfuge
@@ -1158,7 +1165,7 @@ function installsubterfuge {
 		cd ../
 		rm -rf subterfuge/
 		rm SubterfugePublicBeta5.0.tar.gz
-		echo -e "\e[32m[-] Done Installing Subterfuge!\e[0m"		
+		echo -e "\e[32m[-] Done Installing Subterfuge!\e[0m"
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
@@ -1171,8 +1178,8 @@ function subterfuge {
 			echo "Subterfuge is installed."
 			echo -e "\e[31m[+] Launching Subterfuge now!\e[0m"
 			echo "leave the window that opens open until done using."
-			gnome-terminal -t "Subterfuge" -e subterfuge 2>/dev/null & sleep 2			
-		fi	
+			gnome-terminal -t "Subterfuge" -e subterfuge 2>/dev/null & sleep 2
+		fi
 }
 
 ##### Ghost-Phisher
@@ -1182,8 +1189,8 @@ function ghostphisher {
 		else
 			echo "Ghost-Phisher is installed."
 			echo -e "\e[31m[+] Launching Ghost-Phisher now!\e[0m"
-			python /opt/Ghost-Phisher/ghost.py 2>/dev/null & sleep 2			
-		fi	
+			python /opt/Ghost-Phisher/ghost.py 2>/dev/null & sleep 2
+		fi
 }
 
 ######## Install Ghost-Phisher
@@ -1196,12 +1203,12 @@ function installghostphisher {
 		wget http://ghost-phisher.googlecode.com/files/Ghost-Phisher_1.5_all.deb
 		dpkg -i Ghost-Phisher_1.5_all.deb
 		rm Ghost-Phisher_1.5_all.deb
-		echo -e "\e[32m[-] Done Installing GhostFisher!\e[0m"		
+		echo -e "\e[32m[-] Done Installing GhostFisher!\e[0m"
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
-	
-	
+
+
 }
 
 ######## Install Flash
@@ -1212,12 +1219,12 @@ function installflash {
 		echo -e "\e[31m[+] Installing Flash now!\e[0m"
 		apt-get -y install flashplugin-nonfree
 		update-flashplugin-nonfree --install
-		echo -e "\e[32m[-] Done Installing Flash!\e[0m"		
+		echo -e "\e[32m[-] Done Installing Flash!\e[0m"
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
-	
-	
+
+
 }
 
 ######## Install smbexec
@@ -1234,13 +1241,13 @@ function installsmbexec {
 		echo -e "\e[31m[+] Now for part 2 Compile the binaries, select option 4!\e[0m"
 		./install.sh
 		echo -e "\e[32m[-] Done Installing Smbexec!\e[0m"
-		echo "Open a terminal and type smbexec, have fun!"		
+		echo "Open a terminal and type smbexec, have fun!"
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
-	
-	
-}	
+
+
+}
 
 ######## Install xssf
 function installxssf {
@@ -1255,7 +1262,7 @@ function installxssf {
 	else
 		echo -e "\e[32m[-] Ok,maybe later !\e[0m"
 	fi
-}	
+}
 
 ######### Install extras
 function extras {
@@ -1269,44 +1276,44 @@ select menusel in "WiFiPhisher" "Hackpack" "Google Chrome" "Flash" "Smbexec" "Xs
 case $menusel in
 	"WiFiPhisher")
 		installwifiphisher
-		pause 
+		pause
 		extras;;
-		
+
 	"Hackpack")
 		installhackpack
 		pause
 		extras;;
-		
+
 	"Google Chrome")
 		installgooglechrome
-		pause 
+		pause
 		extras;;
-		
+
 	"Flash")
 		installflash
-		pause 
+		pause
 		extras;;
-		
+
 	"Smbexec")
 		installsmbexec
-		pause 
+		pause
 		extras;;
-		
+
 	"Xssf")
 		installxssf
-		pause 
+		pause
 		extras;;
-				
+
 	"Ettercap 0.76")
 		installettercap
-		pause 
+		pause
 		extras ;;
-	
+
 	"AngryIP Scanner")
 		installangryip
 		pause
 		extras  ;;
-		
+
 	"Terminator")
 		installterminator
 		pause
@@ -1316,37 +1323,37 @@ case $menusel in
 		installxchat
 		pause
 		extras  ;;
-			
+
 	"Unicornscan")
 		installunicornscan
 		pause
 		extras ;;
-		
+
 	"Nautilus Open Terminal")
 		installnautilusopenterm
 		pause
 		extras ;;
-		
+
 	"Simple-Ducky")
 		installsimpleducky
 		pause
 		extras ;;
-		
+
 	"Subterfuge")
 		installsubterfuge
 		pause
 		extras ;;
-		
+
 	"Ghost-Phisher")
 		installghostphisher
 		pause
 		extras ;;
-		
+
 	"Java")
 		installjava
 		pause
 		extras ;;
-		
+
 	"Install All")
 		echo -e "\e[36mJava is install seperately choose it from the extra's menu\e[0m"
 		echo -e "\e[31m[+] Installing Extra's\e[0m"
@@ -1367,17 +1374,17 @@ case $menusel in
 		echo -e "\e[32m[-] Done Installing Extra's\e[0m"
 		pause
 		extras ;;
-		
+
 
 	"Back to Main")
 		clear
 		mainmenu ;;
-		
+
 	*)
 		screwup
 		extras ;;
-	
-		
+
+
 esac
 
 break
@@ -1391,14 +1398,14 @@ function mainmenu {
 echo -e "
 \033[31m################################################################\033[m
 \033[1;36m
-.____                           ____  __.      .__  .__ 
+.____                           ____  __.      .__  .__
 |    |   _____  ___________.__.|    |/ _|____  |  | |__|
 |    |   \__  \ \___   <   |  ||      < \__  \ |  | |  |
 |    |___ / __ \_/    / \___  ||    |  \ / __ \|  |_|  |
 |_______ (____  /_____ \/ ____||____|__ (____  /____/__|
-        \/    \/      \/\/             \/    \/         
+        \/    \/      \/\/             \/    \/
 
-\033[m                                        
+\033[m
         Script by Reaperz73 and forked by JoshuaFF
                     version : \033[32m$version\033[m
 Script Location : \033[32m$0\033[m
@@ -1411,36 +1418,36 @@ case $menusel in
 	"Update Kali")
 		updatekali
 		clear ;;
-	
+
 	"Metasploit Services")
 		metasploitservices
 		clear ;;
-			
+
 	"OpenVas Services")
 		OpenVas
 		clear ;;
-		
+
 	"Exploitdb")
 		exploitdb
 		clear ;;
-	
+
 	"Sniffing/Spoofing")
 		sniffspoof
 		clear ;;
-	
+
 	"Install Extras")
-		extras 
+		extras
 		clear ;;
 
 	"Payload Gen")
 		payloadgen
 		clear ;;
-	
+
 	"HELP!")
 		echo "What do you need help for, seems pretty simple!"
 		pause
 		clear ;;
-		
+
 	"Credits")
 		credits
 		pause
@@ -1448,7 +1455,7 @@ case $menusel in
 
 	"EXIT PROGRAM")
 		clear && exit 0 ;;
-		
+
 	* )
 		screwup
 		clear ;;
