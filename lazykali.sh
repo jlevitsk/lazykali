@@ -98,6 +98,38 @@ function pause(){
    read -sn 1 -p "Press any key to continue..."
 }
 
+#### Help Menu
+function helpme {
+clear
+echo -e "
+\033[31m#######################################################\033[m
+                        Help
+\033[31m#######################################################\033[m"
+echo -e "\033[36m
+
+Forked lazikali code by JoshuaFF - http://www.joshie.com/
+
+This is a refresh of LazyKali which simplifies install of tools and config.
+Original author appears missing. I have emailed him at the last known address
+in an attempt to verify that there is no current version of this script since
+2013.
+
+I'll be working through all of the menus to ensure that any options in this app
+are compliant with how Kali 2016.01 and beyond function. Please use caution with
+the first few versions, and feel free to file issues. The goal is to make this
+something that helps someone get a system up to speed right after install, and
+to have some maintenance tools as well.
+
+If there are any tools in this utility that are installed by default by Kali
+then they might be removed unless there is good reason to keep them. No need to
+duplicate efforts. This tool can be both for the expert as well as the new user
+to have an easy way to add all the tweaks that are usually applied when you are
+setting up a system.
+
+-Josh
+\033[m"
+}
+
 #### credits
 function credits {
 clear
@@ -107,28 +139,13 @@ echo -e "
 \033[31m#######################################################\033[m"
 echo -e "\033[36m
 
-Forked lazikali code by JoshuaFF
-http://www.joshie.com/
-
-Special thanks to:
-Offensive Security for the awesome OS
-http://www.offensive-security.com/
-http://www.kali.org/
-
-SilverFoxx for Yamas+Spoofa
-https://github.com/SilverFoxx/Yamas
-
-Brav0hax for Easy-Creds
-https://github.com/brav0hax/easy-creds
-
-VulpiArgenti for PwnStar
-http://code.google.com/p/pwn-star/
-
-skysploit for Simple-Ducky
+Offensive Security for the awesome OS - http://www.offensive-security.com/
+SilverFoxx for Yamas+Spoofa - https://github.com/SilverFoxx/Yamas
+Brav0hax for Easy-Creds - https://github.com/brav0hax/easy-creds
+VulpiArgenti for PwnStar - http://code.google.com/p/pwn-star/
+skysploit for Simple-Ducky -
 http://code.google.com/p/simple-ducky-payload-generator/
-
-0sm0s1z for Subterfuge
-http://code.google.com/p/subterfuge/
+0sm0s1z for Subterfuge - http://code.google.com/p/subterfuge/
 
 and anyone else I may have missed.
 
@@ -150,7 +167,7 @@ echo -e "
 \033[31m#######################################################\033[m
                 Let's Update Kali
 \033[31m#######################################################\033[m"
-select menusel in "Add Bleeding Edge Repos" "Update Kali" "Upgrade Kali Dist-upgrade" "Upgrade and AutoClean Kali" "Back to Main"; do
+select menusel in "Add Bleeding Edge Repos" "Update" "Upgrade" "Upgrade and Clean" "Back to Main Menu" "Exit"; do
 case $menusel in
 	"Add Bleeding Edge Repos")
 		clear
@@ -159,7 +176,7 @@ case $menusel in
 		clear
     updatekali ;;
 
-	"Update Kali")
+	"Update")
 		clear
 		echo -e "\033[32mUpdating Kali\033[m"
 		apt-get update && apt-get -y upgrade
@@ -168,28 +185,31 @@ case $menusel in
 		clear
     updatekali ;;
 
-	"Upgrade Kali Dist-upgrade")
+	"Upgrade")
 		clear
-    echo -e "\033[32mUpdating Kali\033[m"
+    echo -e "\033[32mUpgrading Kali\033[m"
     apt-get update && apt-get -y dist-upgrade
     apt-get update && apt-get -y upgrade
-    echo -e "\033[32mDone updating kali\033[m"
+    echo -e "\033[32mDone upgrading kali\033[m"
     pause
 		clear
     updatekali ;;
 
-	"Upgrade and AutoClean Kali")
+	"Upgrade and Clean")
 		clear
-		echo -e "\033[32mUpdating and Cleaning Kali\033[m"
+		echo -e "\033[32mUpgrading and Cleaning Kali\033[m"
 		apt-get update && apt-get -y dist-upgrade && apt-get autoremove -y && apt-get -y autoclean
-		echo -e "\033[32mDone updating and cleaning kali\033[m"
+		echo -e "\033[32mDone upgrading and cleaning kali\033[m"
 		pause
 		clear
     updatekali ;;
 
-	"Back to Main")
+	"Back to Main Menu")
 		clear
 		mainmenu ;;
+
+  "Exit")
+  	clear && exit 0 ;;
 
 	*)
 		screwup
@@ -428,6 +448,27 @@ function bleedingedge {
 		fi
 }
 
+######### Productivity Extras Install Routines
+
+function installlibreoffice {
+if [ ! -e "/usr/bin/libreoffice" ];then
+			echo "LibreOffice is not installed. Do you want to install it ? (Y/N)"
+			read install
+			if [[ $install = Y || $install = y ]] ; then
+				echo -e "\033[31m===== Installing LibreOffice =====\033[m"
+				# Install LibreOffice
+				apt-get -y install libreoffice
+        echo -e "\e[32m[-] LibreOffice installed.\e[0m"
+      else
+        echo -e "\e[32m[-] Ok,maybe later !\e[0m"
+      fi
+else
+      echo -e "\e[32m[-] LibreOffice is already installed!\e[0m"
+fi
+}
+
+######### End of Productivity Extras Install Routines
+
 function installwifiphisher {
 if [ ! -e "/usr/bin/wifiphisher" ];then
 			echo "WiFiPhisher is not installed. Do you want to install it ? (Y/N)"
@@ -441,7 +482,7 @@ if [ ! -e "/usr/bin/wifiphisher" ];then
         echo -e "\e[32m[-] Ok,maybe later !\e[0m"
       fi
 else
-      echo -e "\e[32m[-] WiFiPhisher is installed!\e[0m"
+      echo -e "\e[32m[-] WiFiPhisher is already installed!\e[0m"
 fi
 }
 
@@ -1264,99 +1305,99 @@ function installxssf {
 	fi
 }
 
-######### Install extras
-function extras {
+######### Install Hacking Extras
+function hackextras {
 clear
 echo -e "
 \033[31m#######################################################\033[m
-                Install Extras
+          Install Hacking Extras
 \033[31m#######################################################\033[m"
 
-select menusel in "WiFiPhisher" "Hackpack" "Google Chrome" "Flash" "Smbexec" "Xssf" "Ettercap 0.76" "AngryIP Scanner" "Terminator" "Xchat" "Unicornscan" "Nautilus Open Terminal" "Simple-Ducky" "Subterfuge" "Ghost-Phisher" "Java" "Install All" "Back to Main"; do
+select menusel in "WiFiPhisher" "Hackpack" "Google Chrome" "Flash" "Smbexec" "Xssf" "Ettercap 0.76" "AngryIP Scanner" "Terminator" "Xchat" "Unicornscan" "Nautilus Open Terminal" "Simple-Ducky" "Subterfuge" "Ghost-Phisher" "Java" "Install All" "Back to Main Menu" "Exit"; do
 case $menusel in
 	"WiFiPhisher")
 		installwifiphisher
 		pause
-		extras;;
+		hackextras;;
 
 	"Hackpack")
 		installhackpack
 		pause
-		extras;;
+		hackextras;;
 
 	"Google Chrome")
 		installgooglechrome
 		pause
-		extras;;
+		hackextras;;
 
 	"Flash")
 		installflash
 		pause
-		extras;;
+		hackextras;;
 
 	"Smbexec")
 		installsmbexec
 		pause
-		extras;;
+		hackextras;;
 
 	"Xssf")
 		installxssf
 		pause
-		extras;;
+		hackextras;;
 
 	"Ettercap 0.76")
 		installettercap
 		pause
-		extras ;;
+		hackextras ;;
 
 	"AngryIP Scanner")
 		installangryip
 		pause
-		extras  ;;
+		hackextras  ;;
 
 	"Terminator")
 		installterminator
 		pause
-		extras  ;;
+		hackextras  ;;
 
 	"Xchat")
 		installxchat
 		pause
-		extras  ;;
+		hackextras  ;;
 
 	"Unicornscan")
 		installunicornscan
 		pause
-		extras ;;
+		hackextras ;;
 
 	"Nautilus Open Terminal")
 		installnautilusopenterm
 		pause
-		extras ;;
+		hackextras ;;
 
 	"Simple-Ducky")
 		installsimpleducky
 		pause
-		extras ;;
+		hackextras ;;
 
 	"Subterfuge")
 		installsubterfuge
 		pause
-		extras ;;
+		hackextras ;;
 
 	"Ghost-Phisher")
 		installghostphisher
 		pause
-		extras ;;
+		hackextras ;;
 
 	"Java")
 		installjava
 		pause
-		extras ;;
+		hackextras ;;
 
 	"Install All")
 		echo -e "\e[36mJava is install seperately choose it from the extra's menu\e[0m"
-		echo -e "\e[31m[+] Installing Extra's\e[0m"
+		echo -e "\e[31m[+] Installing Hacking Extra's\e[0m"
 		installwifiphisher
 		installhackpack
 		installgooglechrome
@@ -1371,18 +1412,20 @@ case $menusel in
 		installsimpleducky
 		installghostphisher
 		installsubterfuge
-		echo -e "\e[32m[-] Done Installing Extra's\e[0m"
+		echo -e "\e[32m[-] Done Installing Hacking Extra's\e[0m"
 		pause
-		extras ;;
+		hackextras ;;
 
-
-	"Back to Main")
+  "Back to Main Menu")
 		clear
 		mainmenu ;;
 
+  "Exit")
+  	clear && exit 0 ;;
+
 	*)
 		screwup
-		extras ;;
+		hackextras ;;
 
 
 esac
@@ -1391,20 +1434,60 @@ break
 
 done
 }
+
+######### Install Productivity Extras
+function prodextras {
+clear
+echo -e "
+\033[31m#######################################################\033[m
+          Install Productivity Extras
+\033[31m#######################################################\033[m"
+
+select menusel in "LibreOffice" "Install All" "Back to Main Menu" "Exit"; do
+case $menusel in
+	"LibreOffice")
+		installlibreoffice
+		pause
+		prodextras;;
+
+  "Install All")
+  	echo -e "\e[31m[+] Installing Productivity Extra's\e[0m"
+  	installlibreoffice
+  	echo -e "\e[32m[-] Done Installing Productivity Extra's\e[0m"
+  	pause
+  	prodextras ;;
+
+  "Back to Main Menu")
+		clear
+		mainmenu ;;
+
+  "Exit")
+  	clear && exit 0 ;;
+
+	*)
+		screwup
+		prodextras ;;
+
+esac
+
+break
+
+done
+}
+
 ########################################################
 ##             Main Menu Section
 ########################################################
 function mainmenu {
+clear
 echo -e "
 \033[31m################################################################\033[m
-\033[1;36m
-.____                           ____  __.      .__  .__
+\033[1;36m.____                           ____  __.      .__  .__
 |    |   _____  ___________.__.|    |/ _|____  |  | |__|
 |    |   \__  \ \___   <   |  ||      < \__  \ |  | |  |
 |    |___ / __ \_/    / \___  ||    |  \ / __ \|  |_|  |
 |_______ (____  /_____ \/ ____||____|__ (____  /____/__|
         \/    \/      \/\/             \/    \/
-
 \033[m
         Script by Reaperz73 and forked by JoshuaFF
                     version : \033[32m$version\033[m
@@ -1413,7 +1496,7 @@ Connection Info :-----------------------------------------------
   Gateway: \033[32m$DEFAULT_ROUTE\033[m Interface: \033[32m$IFACE\033[m My LAN Ip: \033[32m$MYIP\033[m
 \033[31m################################################################\033[m"
 
-select menusel in "Update Kali" "Metasploit Services" "OpenVas Services" "Exploitdb" "Sniffing/Spoofing" "Install Extras" "Payload Gen" "HELP!" "Credits" "EXIT PROGRAM"; do
+select menusel in "Update Kali" "Metasploit Services" "OpenVas Services" "Exploitdb" "Sniffing/Spoofing" "Payload Generator" "Install Hacking Extras" "Install Productivity Extras" "Help" "Credits" "Exit"; do
 case $menusel in
 	"Update Kali")
 		updatekali
@@ -1435,16 +1518,21 @@ case $menusel in
 		sniffspoof
 		clear ;;
 
-	"Install Extras")
-		extras
-		clear ;;
-
-	"Payload Gen")
+  "Payload Generator")
 		payloadgen
 		clear ;;
 
-	"HELP!")
-		echo "What do you need help for, seems pretty simple!"
+	"Install Hacking Extras")
+		hackextras
+		clear ;;
+
+  "Install Productivity Extras")
+    prodextras
+    clear ;;
+
+	"Help")
+		#echo "What do you need help for, seems pretty simple!"
+    helpme
 		pause
 		clear ;;
 
@@ -1453,7 +1541,7 @@ case $menusel in
 		pause
 		clear ;;
 
-	"EXIT PROGRAM")
+	"Exit")
 		clear && exit 0 ;;
 
 	* )

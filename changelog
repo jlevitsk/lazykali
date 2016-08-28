@@ -1,15 +1,19 @@
-Aug 27, 2016 - 04
-	Fixed up Kali Update menu
+To be added to upcoming builds;
+		tor to Productivity (for research on the TOR network)
+		atom from GitHub to Productivity (for coding)
+		git to Productivity (for coding)
 
-Aug 27, 2016 - 02
-        Added WiFiPhisher to Extras list
-        Removed Bleeding Edge Repos from Extras list since it is in Kali Update now
-        Modified Credits to point to fork of Yamas that actually works on Kali
+Aug 28, 2016 - 2016082801
+		Added libreoffice to Productivity (for making reports on audits)
 
-Aug 27, 2016 - 01
-        Initial commit of old script from 2013
-        Updated Bleeding Edge Repos to format the way Kali says to
-        Added Bleeding Edge option to Kali Update
-        Added a Dist Upgrade option to the Kali Update menu
-        Corrected self-update code to point at GitHub
-        Created this change log
+Aug 27, 2016 - 2016082704
+		Fixed up Kali Update menu
+    Added WiFiPhisher to Extras list
+    Removed Bleeding Edge Repos from Extras list since it is in Kali Update now
+    Modified Credits to point to fork of Yamas that actually works on Kali
+    Initial commit of old script from 2013
+    Updated Bleeding Edge Repos to format the way Kali says to
+    Added Bleeding Edge option to Kali Update
+    Added a Dist Upgrade option to the Kali Update menu
+    Corrected self-update code to point at GitHub
+    Created this change log
