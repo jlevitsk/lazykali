@@ -238,24 +238,30 @@ case $menusel in
 		echo -e "\033[32mStarting Metasploit..\033[m"
 		service postgresql start && msfdb init
 		echo -e "\033[32mNow Open a new Terminal and launch msfconsole\033[m"
-		pause ;;
+		pause
+    metasploitservices ;;
 
 	"Reset Metasploit")
 		echo -e "\033[32mResetting Metasploit..\033[m"
 		service postgresql restart && msfdb reinit
-		pause ;;
+    echo -e "\33[32mThe database is reset.\033[m"
+    echo -e "\033[32mNow Open a new Terminal and launch msfconsole\033[m"
+		pause
+    metasploitservices ;;
 
   # Will change this to a single command that is just a toggle in the future.
 
 	"Autostart ON PostgeSQL Service")
 		echo -e "\033[32mSetting PostgreSQL Services to start on boot..\033[m"
 		update-rc.d postgresql enable
-		pause ;;
+		pause
+    metasploitservices ;;
 
   "Autostart OFF PostgeSQL Service")
 		echo -e "\033[32mSetting PostgreSQL Services to not start on boot..\033[m"
 		update-rc.d postgresql disable
-		pause ;;
+		pause
+    metasploitservices ;;
 
   "Back to Main Menu")
 		clear
