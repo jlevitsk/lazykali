@@ -14,7 +14,7 @@
 clear
 
 # Variables
-version="1.0.1"
+version="1.0.2"
 DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $3}')
 IFACE=$(ip route show | awk '(NR == 2) {print $3}')
 JAVA_VERSION=`java -version 2>&1 |awk 'NR==1{ gsub(/"/,""); print $3 }'`
@@ -47,6 +47,7 @@ fi
 
 ### Check for updates !
 if [[ "$silent" = "1" ]];then
+  # I have no idea why this is here!
 	echo "Not checking for a new version : silent mode."
 else
   #store last version number to variable
@@ -224,38 +225,44 @@ done
 }
 
 ##### Metasploit Services
+# http://docs.kali.org/general-use/starting-metasploit-framework-in-kali
 function metasploitservices {
 clear
 echo -e "
 \033[31m#######################################################\033[m
                 Metasploit Services
 \033[31m#######################################################\033[m"
-select menusel in "Start Metasploit Services" "Stop Metasploit Services" "Restart Metasploit Services" "Autostart Metasploit Services" "Back to Main"; do
+select menusel in "Start Metasploit" "Reset Metasploit" "Autostart ON PostgeSQL Service" "Autostart OFF PostgeSQL Service" "Back to Main Menu" "Exit"; do
 case $menusel in
-	"Start Metasploit Services")
-		echo -e "\033[32mStarting Metasploit Services..\033[m"
-		service postgresql start && service metasploit start
+	"Start Metasploit")
+		echo -e "\033[32mStarting Metasploit..\033[m"
+		service postgresql start && msfdb init
 		echo -e "\033[32mNow Open a new Terminal and launch msfconsole\033[m"
 		pause ;;
 
-	"Stop Metasploit Services")
-		echo -e "\033[32mStoping Metasploit Services..\033[m"
-		service postgresql stop && service metasploit stop
+	"Reset Metasploit")
+		echo -e "\033[32mResetting Metasploit..\033[m"
+		service postgresql restart && msfdb reinit
 		pause ;;
 
-	"Restart Metasploit Services")
-		echo -e "\033[32mRestarting Metasploit Services..\033[m"
-		service postgresql restart && service metasploit restart
+  # Will change this to a single command that is just a toggle in the future.
+
+	"Autostart ON PostgeSQL Service")
+		echo -e "\033[32mSetting PostgreSQL Services to start on boot..\033[m"
+		update-rc.d postgresql enable
 		pause ;;
 
-	"Autostart Metasploit Services")
-		echo -e "\033[32mSetting Metasploit Services to start on boot..\033[m"
-		update-rc.d postgresql enable && update-rc.d metasploit enable
+  "Autostart OFF PostgeSQL Service")
+		echo -e "\033[32mSetting PostgreSQL Services to not start on boot..\033[m"
+		update-rc.d postgresql disable
 		pause ;;
 
-	"Back to Main")
+  "Back to Main Menu")
 		clear
 		mainmenu ;;
+
+  "Exit")
+  	clear && exit 0 ;;
 
 	*)
 		screwup
@@ -465,6 +472,26 @@ if [ ! -e "/usr/bin/libreoffice" ];then
       fi
 else
       echo -e "\e[32m[-] LibreOffice is already installed!\e[0m"
+fi
+}
+
+function installatom {
+if [ ! -e "/usr/bin/atom" ];then
+			echo "Atom is not installed. Do you want to install it ? (Y/N)"
+			read install
+			if [[ $install = Y || $install = y ]] ; then
+				echo -e "\033[31m===== Installing Atom =====\033[m"
+				# Install Atom
+        rm -f /tmp/llatom.deb
+        curl -L https://atom.io/download/deb > /tmp/llatom.deb
+        dpkg -i /tmp/llatom.deb
+        rm -f /tmp/llatom.deb
+        echo -e "\e[32m[-] Atom installed.\e[0m"
+      else
+        echo -e "\e[32m[-] Ok,maybe later !\e[0m"
+      fi
+else
+      echo -e "\e[32m[-] Atom is already installed!\e[0m"
 fi
 }
 
@@ -1444,12 +1471,17 @@ echo -e "
           Install Productivity Extras
 \033[31m#######################################################\033[m"
 
-select menusel in "LibreOffice" "Install All" "Back to Main Menu" "Exit"; do
+select menusel in "LibreOffice" "Atom by GitHub" "Install All" "Back to Main Menu" "Exit"; do
 case $menusel in
 	"LibreOffice")
 		installlibreoffice
 		pause
 		prodextras;;
+
+  "Atom by GitHub")
+    installatom
+    pause
+    prodextras;;
 
   "Install All")
   	echo -e "\e[31m[+] Installing Productivity Extra's\e[0m"
