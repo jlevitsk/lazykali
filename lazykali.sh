@@ -232,7 +232,7 @@ echo -e "
 \033[31m#######################################################\033[m
                 Metasploit Services
 \033[31m#######################################################\033[m"
-select menusel in "Start Metasploit" "Reset Metasploit" "Autostart ON PostgeSQL" "Autostart OFF PostgeSQL" "Back to Main Menu" "Exit"; do
+select menusel in "Start Metasploit" "Reset Metasploit" "Back to Main Menu" "Exit"; do
 case $menusel in
 	"Start Metasploit")
 		echo -e "\033[32mStarting Metasploit..\033[m"
@@ -251,17 +251,17 @@ case $menusel in
 
   # Will change this to a single command that is just a toggle in the future.
 
-	"Autostart ON PostgeSQL")
-		echo -e "\033[32mSetting PostgreSQL Services to start on boot..\033[m"
-		update-rc.d postgresql enable
-		pause
-    metasploitservices ;;
+#	"Autostart ON PostgeSQL")
+#		echo -e "\033[32mSetting PostgreSQL Services to start on boot..\033[m"
+#		update-rc.d postgresql enable
+#		pause
+#    metasploitservices ;;
 
-  "Autostart OFF PostgeSQL")
-		echo -e "\033[32mSetting PostgreSQL Services to not start on boot..\033[m"
-		update-rc.d postgresql disable
-		pause
-    metasploitservices ;;
+#  "Autostart OFF PostgeSQL")
+#		echo -e "\033[32mSetting PostgreSQL Services to not start on boot..\033[m"
+#		update-rc.d postgresql disable
+#		pause
+#    metasploitservices ;;
 
   "Back to Main Menu")
 		clear
@@ -644,7 +644,7 @@ function installhackpack {
 	read install
 	if [[ $install = Y || $install = y ]] ; then
 		cd /tmp
-		wget http://lazykali.googlecode.com/files/hackpack.tar.gz
+		wget https://raw.githubusercontent.com/jlevitsk/lazykali/master/hackpack.tar.gz
 		tar zxvf hackpack.tar.gz
 		cd hackpack
 		echo -e "\033[31m====== Installing ======\033[m"
